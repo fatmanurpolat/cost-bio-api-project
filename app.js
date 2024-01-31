@@ -1,30 +1,27 @@
-const express = require('express');
+require('dotenv').config();
+
+const express = require("express");
+const mongoose = require("mongoose");
+
 const app = express();
 
 app.use(express.json());
+app.use(express.urlencoded({ extended: false }));
 
-// Kullanıcı veritabanı simulasyonu
-const users = [
-  { id: 1, username: 'user1', password: 'pass1' },
-  { id: 2, username: 'user2', password: 'pass2' }
-];
+const HOST = process.env.HOST || "localhost";
+const PORT = process.env.PORT || 3000;
 
-// Login endpoint'i
-app.post('/login', (req, res) => {
-  const { username, password } = req.body;
+const mongoDB = process.env.DATABASE_URL;
+mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
 
-  // Kullanıcıyı bul
-  const user = users.find(u => u.username === username && u.password === password);
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-  if (user) {
-    res.json({ message: 'Login başarılı', user });
-  } else {
-    res.status(401).json({ message: 'Hatalı kullanıcı adı veya şifre' });
-  }
+app.use("/user", require("../Routes/user"));
+app.use("/post", require("./Routes/post"));
+
+app.listen(PORT, HOST, () => {
+	console.log(`Server running at http://${HOST}:${PORT}/`);
 });
 
-// Sunucuyu dinle
-const port = 3000;
-app.listen(port, () => {
-  console.log(`Server running at http://localhost:${port}`);
-});
+module.exports = app;
