@@ -1,9 +1,9 @@
-require('dotenv').config();
+require("dotenv").config();
 const express = require("express");
 const router = express.Router();
 
-const verifyToken = require('../Express/Middlewares/verify-tokenken')
-const Post = require('../Express/Models/postost');
+const verifyToken = require('../Middlewares/verify-token')
+const Post = require('../Models/post');
 
 router.post("/", verifyToken, async (req, res) => {
     try {

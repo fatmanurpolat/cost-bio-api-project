@@ -1,4 +1,4 @@
-require('dotenv').config();
+require("dotenv").config();
 
 const express = require("express");
 const mongoose = require("mongoose");
@@ -12,12 +12,12 @@ const HOST = process.env.HOST || "localhost";
 const PORT = process.env.PORT || 3000;
 
 const mongoDB = process.env.DATABASE_URL;
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(mongoDB, { });
 
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
-app.use("/user", require("../Routes/user"));
+app.use("/user", require("./Routes/user"));
 app.use("/post", require("./Routes/post"));
 
 app.listen(PORT, HOST, () => {

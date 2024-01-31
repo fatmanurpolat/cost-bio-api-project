@@ -1,8 +1,10 @@
+// user.js
+
 const mongoose = require('mongoose');
 const { Schema } = mongoose;
 
 const userSchema = new Schema({
-    username: {
+    email: {
         type: String,
         required: true,
         unique: true,
@@ -16,4 +18,4 @@ const userSchema = new Schema({
     timestamps: true,
 });
 
-module.exports = mongoose.model('User', userSchema);
+module.exports = mongoose.model('User', userSchema)
